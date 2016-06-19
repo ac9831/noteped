@@ -4,5 +4,168 @@ body {
 }
 
 a {
-  color: #00B7FF;
+  color: #586e75;
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
+.row{
+  overflow: auto;
+  min-width: 1024px;
+  padding-bottom : 20px;
+}
+
+
+.memo-conf{
+  margin : 120px 0;
+  height:300px;
+  text-align: center;
+}
+
+.select{
+  background-color: hsla(120, 60%, 70%, 0.3);;
+  background-clip: padding-box;
+}
+
+
+a:hover,
+a:focus{
+  background-color : transparent !important;
+  color : #586e75;
+}
+
+input.ng-invalid {
+  border: 2px solid red;
+}
+
+.label a{
+  color : #fff;
+}
+
+*:focus {
+  outline: none;
+}
+
+input {
+  border:none;
+  border-right:0px;
+  border-top:0px;
+  boder-left:0px;
+  boder-bottom:0px;
+}
+
+input[type="text"]:disabled {
+  background: #fff;
+}
+
+.memo-label{
+  float:right;
+  margin:3px 2px;
+}
+
+.memo-list {
+  position: relative;
+  display: flex;
+  padding:10px 10px 10px 0;
+}
+
+.memo-list .memoCheck{
+  flex: 1;
+}
+
+.memo-content{
+  width:100%;
+  min-height: 200px;
+}
+
+.memo-frame {
+  padding-bottom:30px;
+}
+
+ul.lab{
+  overflow: auto;
+}
+
+ul.memo{
+  overflow: auto;
+}
+
+.memo-list .update-at{
+  display:inline;
+  float:right;
+  font-size:8pt;
+}
+
+.list-group{
+  margin-bottom:0px;
+}
+
+.memo-list .memoContent{
+  flex: 8;
+}
+
+.click{
+  background-color: #F0FFF0 !important;
+}
+
+.memo-list a:hover,
+.memo-list a:focus {
+  text-decoration: none;
+}
+
+.all-check {
+  padding:0 0 0 15px;
+}
+
+.checks {
+  position: relative;
+  padding:10px 5px;
+}
+.checks input[type="checkbox"] {  /* 실제 체크박스는 화면에서 숨김 */
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip:rect(0,0,0,0);
+  border: 0
+}
+
+.checks input[type="checkbox"] + label {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+.checks input[type="checkbox"] + label:before {
+  content: ' ';
+  display: inline-block;
+  width: 21px;
+  height: 21px;
+  line-height: 21px;
+  margin: -2px 8px 0 0;
+  text-align: center;
+  vertical-align: middle;
+  background: #fafafa;
+  border: 1px solid #cacece;
+  border-radius : 3px;
+  box-shadow: 0px 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
+}
+.checks input[type="checkbox"] + label:active:before,
+.checks input[type="checkbox"]:checked + label:active:before {
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
+}
+
+.checks input[type="checkbox"]:checked + label:before { 
+  content: '\2714';
+  color: #99a1a7;
+  text-shadow: 1px 1px #fff;
+  background: #e9ecee;
+  border-color: #adb8c0;
+  box-shadow: 0px 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
 }

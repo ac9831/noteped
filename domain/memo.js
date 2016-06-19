@@ -1,12 +1,10 @@
 var sequelize = require('Sequelize');
 var config = require('../config/sequelize_config');
+var label = require('./label');
 var memo = config.define('memo',{
 
-    id : sequelize.INTEGER,
-    title : sequelize.STRING,
+    title : {type: sequelize.STRING(200), allowNull : false},
     content : sequelize.TEXT,
-    createdate : sequelize.DATE,
-    labelid : sequelize.INTEGER
 });
 
 memo.sync();

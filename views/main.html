@@ -1,0 +1,112 @@
+<div class="row">
+    <div class="col-xs-3">
+        <ul class="nav list-group" role="tablist">
+            <li class="list-group-item" role="presentation"><a href=""  ui-sref="note">전체보기 <span class="badge">{{memoTotalNum}}</span></a></li>
+        </ul>
+        <ul class="nav list-group lab" role="tablist">
+            {{selectLabel()}}
+            <li class="list-group-item" role="presentation" ng-repeat="label in labels" id="label{{label.id}}" >
+                <a href="#/label/{{label.id}}" >{{label.title}} <span class="badge" >{{memoLength[label.id]}}</span></a>
+            </li>
+        </ul>
+        <ul class="nav list-group" role="tablist">
+            <li class="list-group-item" role="presentation" ng-show="!addLabelF"><a href="" ng-click="addLabelFunction()">추가하기 </a></li>
+            <li class="list-group-item" role="presentation" ng-show="addLabelF">
+                <div>
+                    <form role="form" id="labelForm">
+                        <div class="has-feedback" id="labelTitle">
+                            <p>
+                                <input type="text" class="form-control" ng-model="formDataLabel.title" placeholder="Label 추가" name="title" maxlength="100" my-enter="createLabel()">
+                                <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                                <label class="hidden control-label">라벨을 입력하세요</label>
+                            </p>
+                        </div>
+                        <p class="text-right"><button type="button" class="btn btn-success btn-xs" ng-click="createLabel()">추가하기</button><button type="button" class="btn btn-danger btn-xs" ng-click="addLabelFunction()">취소</button></p>
+                    </form>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="col-xs-3">
+        <ul class="nav list-group">
+            <li class="list-group-item" role="presentation">
+                <span ng-show="!labelEditF">
+                    {{labelData.title}}
+                </span>
+                <span ng-show="labelEditF">
+                  <input type="text" name="labelTitleEdit" id="labelTitleEdit" ng-model="labelData.title" my-enter="editLabel()" size="20">
+                </span>
+                <span class="label label-danger memo-label" ng-show="labelEditF"><a href="" ng-click="switchLabelTitle()">취소</a></span>
+                <span class="label label-danger memo-label" ng-show="labelConf && !labelEditF"><a href="" ng-click="deleteLabel(labelData.id)">삭제</a></span>
+                <span class="label label-primary memo-label" ng-show="labelConf && !labelEditF"><a href="" ng-click="labelEdit()">라벨명 변경</a></span>
+                <p id="labelError" class="hidden" ng-show="labelEditF">
+                    <label class="control-label">라벨을 입력하세요</label>
+                </p>
+            </li>
+            <li class="list-group-item all-check" role="presentation">
+                <div class="checks">
+                    <input type="checkbox" id="ex_chk">
+                    <label for="ex_chk"></label>
+                    <span class="label label-danger memo-label hidden" id="selectDel"><a href="" ng-click="deleteMemos()">선택된 메모 삭제</a></span>
+                </div>
+            </li>
+        </ul>
+        <ul class="nav list-group memo" role="tablist">
+            {{selectMemo()}}
+            <li class="list-group-item " role="presentation" ng-repeat="memo in memos" id="memoList{{memo.id}}">
+                <div class="memo-list">
+                    <div class="checks">
+                        <input type="checkbox" id="check{{memo.id}}" class="memo-check">
+                        <label for="check{{memo.id}}"></label>
+                    </div>
+                    <div class="memoContent" >
+                        <a href="#/label/{{labelData.id}}/memo/{{memo.id}}">
+                            <span>{{memo.title}}</span><span class="update-at">{{memo.updatedAt | date:'yyyy-MM-dd'}}</span>
+                            <p>{{memo.content | limitTo:10 }}<span ng-if="memo.content.length>10">...</span></p>
+                        </a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <ul class="nav list-group" ng-show="labelConf">
+            <li class="list-group-item" role="presentation" ><a href="" ng-click="createMemo(labelData.id)">추가하기 </a></li>
+        </ul>
+    </div>
+    <div class="col-xs-6" ng-show="!memoF">
+        <div class="memo-conf">
+            {{memoConf}}
+        </div>
+    </div>
+    <div class="col-xs-6" ng-show="memoF">
+        <ul class="nav list-group" role="tablist" ng-show="memoId">
+            <li class="list-group-item" role="presentation"  ng-show="!memoTitleF">
+                <span ng-click="memoTitleEdit()">{{memoData.title}}</span>
+              <span class="text-right">
+                <a href="" style="float:right" ng-click="deleteMemo(memoData.id)"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+              </span>
+            </li>
+            <li class="list-group-item" role="presentation" ng-show="memoTitleF">
+                <input type="text" ng-model="memoData.title" id="memoTitle" my-enter="editMemoTitle()">
+                <span class="label label-danger memo-label"><a href="" ng-click="switchMemoTitle()">취소</a></span>
+                <span class="label label-primary memo-label"><a href="" ng-click="editMemoTitle()">메모명 변경</a></span>
+                <p id="memoError" class="hidden">
+                    <label class="control-label">메모를 입력하세요</label>
+                </p>
+            </li>
+            <li class="list-group-item memo-frame" role="presentation">
+                <p class="text-right">메모 수정일 {{memoData.updatedAt | date: 'yyyy-MM-dd'}}</p>
+                <p ng-click="memoContentEdit()" ng-show="!memoContentF">{{memoData.content}}</p>
+                <p ng-show="memoContentF" ng-click="">
+                    <textarea ng-model="memoData.content" class="memo-content" id="memoContent"></textarea>
+                <p ng-show="memoContentF">
+                    <span class="label label-danger memo-label"><a href="" ng-click="switchMemoContent()">취소</a></span>
+                    <span class="label label-primary memo-label"><a href="" ng-click="editMemoContent()">메모 수정</a></span>
+                </p>
+                </p>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+<script src="/javascripts/common.js"></script>
