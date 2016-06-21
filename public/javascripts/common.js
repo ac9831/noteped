@@ -10,13 +10,12 @@ $(function(){
 
     $(document).on("click",'#ex_chk',function(){
         if($('#ex_chk').prop('checked')){
-            $('input[type=checkbox]').prop("checked", true);
+            $('.checks input[type=checkbox]').prop("checked", true);
             $('#selectDel').removeClass('hidden');
         }else{
-            $('input[type=checkbox]').prop("checked", false);
+            $('.checks input[type=checkbox]').prop("checked", false);
             $('#selectDel').addClass('hidden');
         }
     });
 
-       
 });

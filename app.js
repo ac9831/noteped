@@ -21,16 +21,16 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public/dist')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'bower_components')));
-app.use(express.static(path.join(__dirname, 'views')));
 
 app.use('/label', label);
 app.use('/memo', memo);
 app.use('/labelToMemo',labelToMemo);
 
 app.get('/', function(req, res){
-  res.sendfile('./views/index.html');
+  res.sendfile('./index.html');
 });
 
 

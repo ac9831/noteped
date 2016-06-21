@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" ng-clock>
     <div class="col-xs-3">
         <ul class="nav list-group" role="tablist">
             <li class="list-group-item" role="presentation"><a href=""  ui-sref="note">전체보기 <span class="badge">{{memoTotalNum}}</span></a></li>
@@ -81,9 +81,10 @@
         <ul class="nav list-group" role="tablist" ng-show="memoId">
             <li class="list-group-item" role="presentation"  ng-show="!memoTitleF">
                 <span ng-click="memoTitleEdit()">{{memoData.title}}</span>
-              <span class="text-right">
-                <a href="" style="float:right" ng-click="deleteMemo(memoData.id)"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
-              </span>
+                <span class="memo-label">
+                    <a href="" ng-click="deleteMemo(memoData.id)"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                </span>
+                <span class="label label-primary memo-label"><a href="" ng-click="labelCheckF(memoData.id)" data-toggle="modal" data-target="#myModal">라벨 선택</a></span>
             </li>
             <li class="list-group-item" role="presentation" ng-show="memoTitleF">
                 <input type="text" ng-model="memoData.title" id="memoTitle" my-enter="editMemoTitle()">
@@ -105,6 +106,42 @@
                 </p>
             </li>
         </ul>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">라벨 선택</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row modal-width ">
+                    <div class="col-lg-6">
+                        <div class="input-group" ng-repeat="label in labels" ng-if="$index < labels.length/2">
+                            <span class="input-group-addon">
+                                <input type="checkbox" value="{{label.id}}" id="labelList{{label.id}}" class="label-to-memo">
+                            </span>
+                            <input type="text" class="form-control" readonly value="{{label.title}}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="input-group" ng-repeat="label in labels" ng-if="$index >= labels.length/2">
+                            <span class="input-group-addon">
+                              <input type="checkbox" value="{{label.id}}" id="labelList{{label.id}}" class="label-to-memo">
+                            </span>
+                            <input type="text" class="form-control" readonly value="{{label.title}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-primary" ng-click="memoToLabel(memoData.id)">등록</button>
+            </div>
+        </div>
     </div>
 </div>
 

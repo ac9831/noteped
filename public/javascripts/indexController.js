@@ -8,6 +8,7 @@ angular.module('notepadApp')
     $scope.labelId = 0;
     $scope.addLabelF = false;
     $scope.labelEditF = false;
+    $scope.labelArray = new Array();
 
     $scope.memoTotalNum = 0;
     $scope.memoLength = new Array();
@@ -17,7 +18,6 @@ angular.module('notepadApp')
     $scope.memoTitleF = false;
     $scope.memoContentF = false;
     $scope.memoConf = "";
-    $scope.memoArray = [];
 
     $scope.formDataLabel = {};
     $scope.formDataMemo = {};
@@ -35,8 +35,8 @@ angular.module('notepadApp')
             })
             .error(function(data){
                 console.log('Error :' + data);
-            })
-    }
+            });
+    };
 
 
     $scope.memoNum = function(data){
@@ -53,7 +53,7 @@ angular.module('notepadApp')
             $scope.labelEditF = true;
             $('#labelTitleEdit').focus();
         }
-    }
+    };
 
     $scope.allLabel = function(){
         $('ul.lab').find('li').removeClass('select');
@@ -68,8 +68,8 @@ angular.module('notepadApp')
             })
             .error(function(data){
                 console.log('Error :' + data);
-            })
-    }
+            });
+    };
     
     $scope.oneLabel = function(id){
         $scope.labelEditF = false;
@@ -81,9 +81,9 @@ angular.module('notepadApp')
             })
             .error(function(e){
                 console.log(e);
-            })
+            });
         $scope.labelConf = true;
-    }
+    };
 
     $scope.createLabel = function(){
         if($('#labelForm').find("input:text[name=title]").val() == ''){
@@ -103,7 +103,7 @@ angular.module('notepadApp')
                 });
 
         }
-    }
+    };
 
     $scope.updateLabel = function(){
         $http.post('/label/upd', $scope.labelData)
@@ -112,8 +112,8 @@ angular.module('notepadApp')
             })
             .error(function(data){
                 console.log('Error :' + data)
-            })
-    }
+            });
+    };
 
     $scope.deleteLabel = function(id){
         if(confirm("라벨을 삭제하겠습니까?")){
@@ -125,23 +125,14 @@ angular.module('notepadApp')
                 })
                 .error(function(data){
                     console.log(data);
-                })
+                });
 
         }else{
             return;
         }
 
-    }
+    };
 
-
-    $scope.addLabelFunction = function(){
-        if($scope.addLabelF){
-            $scope.formDataLabel.title = "";
-            $scope.addLabelF = false;
-        }else{
-            $scope.addLabelF = true;
-        }
-    }
 
     $scope.editLabel = function(){
         if($('#labelTitleEdit').val() == ''){
@@ -157,7 +148,7 @@ angular.module('notepadApp')
 
     $scope.switchLabelTitle = function(){
         $scope.labelEditF = false;
-    }
+    };
 
 
 
@@ -172,9 +163,8 @@ angular.module('notepadApp')
             })
             .error(function(data){
                 console.log(data);
-            })
-    }
-
+            });
+    };
 
 
     $scope.findLabelMemo = function(labelid){
@@ -193,7 +183,6 @@ angular.module('notepadApp')
                 console.log(e);
             });
     };
-
 
 
     $scope.labelMemoNum = function(labelid){
@@ -243,9 +232,9 @@ angular.module('notepadApp')
             })
             .error(function(e){
                 console.log(e);
-            })
+            });
 
-    }
+    };
 
     $scope.updateMemo = function(){
         $http.post('/memo/upd', $scope.memoData)
@@ -254,8 +243,8 @@ angular.module('notepadApp')
             })
             .error(function(data){
                 console.log(data);
-            })
-    }
+            });
+    };
 
     $scope.callTotalMemoNum = function(){
         $http.get('/memo/all')
@@ -264,8 +253,8 @@ angular.module('notepadApp')
         })
         .error(function(e){
             console.log(e);
-        })
-    }
+        });
+    };
     
     $scope.deleteMemo = function(id){
         if(confirm("메모를 삭제하겠습니까?")) {
@@ -283,62 +272,47 @@ angular.module('notepadApp')
                 })
                 .error(function (data) {
                     console.log(data);
-                })
+                });
         }else{
             return;
         }
-    }
+    };
 
     $scope.deleteMemos = function(){
+        var checkBox = $('.memo-check:checked');
         if(confirm("메모를 삭제하겠습니까?")) {
-            $http.delete('/memo/del/' + id)
-                .success(function (data) {
-                    $scope.callLabel();
-                    if($scope.labelid > 0){
-                        $scope.findLabelMemo($scope.labelid);
-                        $scope.callTotalMemoNum()
-                    }else{
-                        $scope.allMemo();
-                    }
 
-                    $scope.memoId = 0;
-                })
-                .error(function (data) {
-                    console.log(data);
-                })
+                for (var i=0;i<checkBox.length;i++) {
+                    var promise = new Promise(function(){
+                        $http.delete('/memo/del/' + checkBox[i].id.split('check')[1])
+                            .success(function (data) {
+
+                            })
+                            .error(function (data) {
+                                console.log(data);
+                            })
+                    });
+                }
+
+            $scope.callTotalMemoNum();
+            $scope.callLabel();
+            $scope.oneLabel($scope.labelid);
+            if($scope.labelid > 0){
+                $scope.findLabelMemo($scope.labelid);
+                $scope.callTotalMemoNum();
+            }else{
+                $scope.allMemo();
+            }
+            $('#ex_chk').prop('checked', false);
+            $('#selectDel').addClass('hidden');
+
+
         }else{
             return;
         }
-    }
 
-    $scope.memoTitleEdit = function(){
+    };
 
-        $scope.memoTitleF = true;
-        $('#memoTitle').focus();
-    }
-    $scope.memoContentEdit = function(){
-
-        $scope.memoContentF = true;
-        $('#memoContent').focus();
-    }
-
-    $scope.switchMemoTitle = function(){
-        $scope.memoTitleF = false;
-    }
-
-    $scope.switchMemoContent = function(){
-        $scope.memoContentF = false;
-    }
-
-    $scope.selectMemo = function(){
-        
-        $('li#memoList' + $stateParams.memoid).addClass('select');
-    }
-    
-    $scope.selectLabel = function(){
-        $('ul.lab').find('li').removeClass('select');
-        $('li#label'+$scope.labelData.id).addClass('select');
-    }
 
     $scope.editMemoTitle = function(){
         if($('#memoTitle').val() == ''){
@@ -348,6 +322,11 @@ angular.module('notepadApp')
             $scope.updateMemo();
             $scope.memoTitleF = false;
             $scope.findLabelMemo($scope.memoData.labelid);
+            if($stateParams.labelid < 1){
+                $scope.allMemo();
+            }else{
+                $scope.oneLabel($stateParams.labelid);
+            }
         }
     }
 
@@ -355,34 +334,73 @@ angular.module('notepadApp')
         $scope.updateMemo();
         $scope.memoContentF = false;
         $scope.findLabelMemo($scope.memoData.labelid);
-    }
-
-
-    if(Object.keys($stateParams).length){
-        $scope.callTotalMemoNum();
-        if($stateParams.memoid){
-            if($stateParams.labelid < 1){
-                $scope.callLabel();
-                $scope.allMemo();
-                $scope.oneMemo($stateParams.memoid);
-            }else{
-                $scope.callLabel();
-                $scope.oneLabel($stateParams.labelid);
-                $scope.oneMemo($stateParams.memoid);
-            }
-        }else if($stateParams.labelid){
-            $scope.callLabel();
+        if($stateParams.labelid < 1){
+            $scope.allMemo();
+        }else{
             $scope.oneLabel($stateParams.labelid);
         }
+    };
+    
+    
+    // html 제어 함수
+    $scope.labelCheckF = function( memoid){
 
-    }else{
-        $scope.callLabel();
-        $scope.allMemo();
-    }
+        $http.get('/labelToMemo/memo/' + memoid)
+            .success(function(data){
+                (function(){
+                    for(var i=0;i<data.length;i++){
+                        console.log(data[i].labelId);
+                        $('#labelList' + data[i].labelId).prop('checked', true);
+                    }
+                })();
 
-    $('#labelTitleEdit').blur(function(){
-        $scope.editLabel();
-    });
+            }).error(function(data){
+                console.log(data)
+            });
+
+
+    };
+
+    $scope.memoTitleEdit = function(){
+
+        $scope.memoTitleF = true;
+        $('#memoTitle').focus();
+    };
+
+    $scope.memoContentEdit = function(){
+
+        $scope.memoContentF = true;
+        $('#memoContent').focus();
+    };
+
+    $scope.switchMemoTitle = function(){
+        $scope.memoTitleF = false;
+    };
+
+    $scope.switchMemoContent = function(){
+        $scope.memoContentF = false;
+    };
+
+    $scope.selectMemo = function(){
+        
+        $('li#memoList' + $stateParams.memoid).addClass('select');
+    };
+    
+    $scope.selectLabel = function(){
+        $('ul.lab').find('li').removeClass('select');
+        $('li#label'+$scope.labelData.id).addClass('select');
+    };
+
+
+    $scope.addLabelFunction = function(){
+        if($scope.addLabelF){
+            $scope.formDataLabel.title = "";
+            $scope.addLabelF = false;
+        }else{
+            $scope.addLabelF = true;
+        }
+    };
+
 
     $scope.checkEvent = function(num){
         for(var i=0;i<$scope.memos.length;i++){
@@ -409,9 +427,63 @@ angular.module('notepadApp')
             });
         }
     };
+    
+    $scope.memoToLabel = function(memoid){
+        $http.delete('/labelToMemo/memo/del/' + memoid)
+            .success(function(){
+                var check = $('.label-to-memo:checked');
+                for(var i=0;i<check.length;i++){
+                    var data = {labelId:check[i].id.split('labelList')[1], memoId:memoid};
+                    $http.post('/labelToMemo/add',data)
+                        .success(function(data){
+                            $('#myModal').modal('hide');
+                            $scope.uiRouter();
+
+                        })
+                        .error(function(e){
+                            console.log(e);
+                        })
+                }
+            }).error(function(e){
+                console.log(e);
+            });
+
+    };
+
+
+    $scope.uiRouter = function(){
+        if($stateParams.memoid){
+            if($stateParams.labelid < 1){
+                $scope.callLabel();
+                $scope.allMemo();
+                $scope.oneMemo($stateParams.memoid);
+            }else{
+                $scope.callLabel();
+                $scope.oneLabel($stateParams.labelid);
+                $scope.oneMemo($stateParams.memoid);
+            }
+        }else if($stateParams.labelid){
+            $scope.callLabel();
+            $scope.oneLabel($stateParams.labelid);
+        }
+    };
+
+    if(Object.keys($stateParams).length){
+        $scope.callTotalMemoNum();
+        $scope.uiRouter();
+
+    }else{
+        $scope.callLabel();
+        $scope.allMemo();
+    }
+
+    $('#labelTitleEdit').blur(function(){
+        $scope.editLabel();
+    });
 
 
 }]);
+
 
 angular.module('notepadApp').directive('myEnter', function () {
     return function (scope, element, attrs) {

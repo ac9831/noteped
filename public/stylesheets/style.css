@@ -29,6 +29,13 @@ a {
   background-clip: padding-box;
 }
 
+.modal-width{
+  min-width:0px !important;
+}
+
+.modal .input-group{
+  padding: 5px 0 ;
+}
 
 a:hover,
 a:focus{

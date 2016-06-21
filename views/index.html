@@ -4,16 +4,20 @@
     <title>Hello</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel='stylesheet' href="/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel='stylesheet' href="/bootstrap/dist/css/bootstrap-theme.min.css" />
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-    <script src="/jquery/dist/jquery.min.js"></script>
-    <script src="/angular/angular.min.js" ></script>
-    <script src="/angular-route/angular-route.min.js"></script>
-    <script src="/angular-ui-router/release/angular-ui-router.min.js"></script>
-    <script src="/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="/javascripts/routerApp.js"></script>
-    <script src="/javascripts/indexController.js"></script>
+    <!-- build:css /styles/main.css -->
+    <link rel='stylesheet' href="../bower_components/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel='stylesheet' href="../bower_components/bootstrap/dist/css/bootstrap-theme.min.css" />
+    <link rel='stylesheet' href='../public/stylesheets/style.css' />
+    <!-- endbuild -->
+    <!-- build:js /scripts/main.js -->
+    <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="../bower_components/angular/angular.min.js" ></script>
+    <script src="../bower_components/angular-route/angular-route.min.js"></script>
+    <script src="../bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="../public/javascripts/routerApp.js"></script>
+    <script src="../public/javascripts/indexController.js"></script>
+    <!-- endbuild -->
   </head>
   <body id="indexController">
     <div ui-view="content" class="container">

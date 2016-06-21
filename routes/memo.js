@@ -19,19 +19,6 @@ router.get('/all', function(req,res){
 
 });
 
-router.get('/label/:labelid',function(req, res){
-
-    var labelid = req.params.labelid;
-
-    memo.findAll({
-        where : {labelid : labelid}
-    }).then(function(data){
-        res.json(data);
-    }).catch(function(e){
-
-        res.sendStatus(503);
-    });
-})
 
 
 router.get('/:id', function(req, res){

@@ -39,7 +39,10 @@ router.get('/label/:labelid', function(req, res){
 
     labelToMemo.findAll({
         where : {labelId : labelId},
-        include : [memo]
+        include : [memo],
+        order: [
+            ['memoId', 'DESC']
+        ]
     }).then(function(data){
         res.json(data);
     }).catch(function(e){
@@ -77,5 +80,7 @@ router.delete('/memo/del/:memoid', function(req,res){
         res.sendStatus(503);
     });
 })
+
+
 
 module.exports = router;
